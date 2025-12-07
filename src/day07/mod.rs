@@ -1,7 +1,8 @@
-use std::{cell::RefCell, collections::{HashMap, HashSet}};
+use std::{collections::{HashMap, HashSet}};
 
 use aoc_runner_derive::{aoc, aoc_generator};
 use anyhow::{Result, Context};
+use memoize::memoize;
 
 use crate::utils::AocError;
 
@@ -57,24 +58,16 @@ pub fn solve_part1(input: &Map) -> Result<i32> {
     Ok(splits)
 }
 
-std::thread_local! {
-    static CACHE: RefCell<HashMap<Coords, u128>> = RefCell::new(HashMap::new());
-}
-
+#[memoize(Ignore: map, Ignore: max)]
 fn split_beams3(map: &Map, max: i32, row: i32, col: i32) -> u128 {
     if row >= max {
         return 1;
-    }
-
-    if CACHE.with_borrow(|map| map.contains_key(&(row, col))) {
-        return CACHE.with_borrow(|map| map.get(&(row, col)).unwrap().clone())
     }
 
     let result = match map.get(&(row, col)) {
         Some('^') => split_beams3(map, max, row+1, col - 1) + split_beams3(map, max, row+1, col + 1),
         _ => split_beams3(map, max, row+1, col),
     };
-    CACHE.with_borrow_mut(|map| map.insert((row, col), result.clone()));
 
     result
 }
