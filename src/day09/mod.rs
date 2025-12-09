@@ -70,14 +70,14 @@ pub fn solve_part2(input: &[Coords]) -> Result<i32> {
         edges.push((pair[0], pair[1]));
     }
 
-    let mut candidates = vec![];
-    for i in 0..len {
-        for j in i+1..len {
-            candidates.push((input[i].clone(), input[j].clone(), area(&input[i], &input[j])));
-        }
-    }
-    candidates.sort_by(|a, b| b.2.cmp(a.2));
-    println!("{:?}", candidates);
+    // let mut candidates = vec![];
+    // for i in 0..len {
+    //     for j in i+1..len {
+    //         candidates.push((input[i].clone(), input[j].clone(), area(&input[i], &input[j])));
+    //     }
+    // }
+    // candidates.sort_by(|a, b| b.2.cmp(a.2));
+    // println!("{:?}", candidates);
 
     Ok(0)
 }
