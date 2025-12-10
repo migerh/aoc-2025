@@ -7,7 +7,7 @@ use crate::utils::AocError;
 
 
 pub type Base = i64;
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct Coords(Base, Base);
 
 impl FromStr for Coords {
@@ -63,11 +63,10 @@ pub fn solve_part1(input: &[Coords]) -> Result<Base> {
 
 #[aoc(day09, part2)]
 pub fn solve_part2(input: &[Coords]) -> Result<i32> {
-    let len = input.len();
-    let mut edges = vec![];
+    let mut edges: Vec<(Coords, Coords)> = vec![];
 
-    for pair in edges.windows(2) {
-        edges.push((pair[0], pair[1]));
+    for pair in input.windows(2) {
+        edges.push((pair[0].clone(), pair[1].clone()));
     }
 
     // let mut candidates = vec![];
