@@ -133,18 +133,20 @@ pub fn solve_part1(input: &(Vec<Shape>, Vec<Tree>)) -> Result<usize> {
     let (shapes, trees) = input;
 
     let spaces = shapes.iter().map(count_spaces).collect::<Vec<_>>();
+    println!("{:?}", spaces);
 
     let mut count = 0;
     for tree in trees {
         let available = tree.width * tree.height;
-        let required: usize = tree.presents.iter().filter_map(|p| spaces.get(*p)).sum();
+        let required: usize = tree.presents.iter().enumerate().filter_map(|(p, c)| Some(c * spaces.get(p)?)).sum();
+        println!("available {available}");
+        println!("required {required}");
+        println!();
         if required <= available {
             count += 1;
         }
     }
 
-    println!("shapes: {:?}", shapes);
-    println!("trees: {:?}", trees);
     Ok(count)
 
     // 1000: no hint
