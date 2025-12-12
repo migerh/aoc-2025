@@ -61,40 +61,40 @@ impl FromStr for Tree {
 
 #[aoc_generator(day12)]
 pub fn input_generator(input: &str) -> Result<(Vec<Shape>, Vec<Tree>)> {
-    let input = "0:
-###
-##.
-##.
+//     let input = "0:
+// ###
+// ##.
+// ##.
 
-1:
-###
-##.
-.##
+// 1:
+// ###
+// ##.
+// .##
 
-2:
-.##
-###
-##.
+// 2:
+// .##
+// ###
+// ##.
 
-3:
-##.
-###
-##.
+// 3:
+// ##.
+// ###
+// ##.
 
-4:
-###
-#..
-###
+// 4:
+// ###
+// #..
+// ###
 
-5:
-###
-.#.
-###
+// 5:
+// ###
+// .#.
+// ###
 
-4x4: 0 0 0 0 2 0
-12x5: 1 0 1 0 2 2
-12x5: 1 0 1 0 3 2
-";
+// 4x4: 0 0 0 0 2 0
+// 12x5: 1 0 1 0 2 2
+// 12x5: 1 0 1 0 3 2
+// ";
     let split = input
         .split("\n\n")
         .filter(|e| !e.is_empty())
@@ -124,12 +124,30 @@ pub fn input_generator(input: &str) -> Result<(Vec<Shape>, Vec<Tree>)> {
     Ok((shapes, trees))
 }
 
+fn count_spaces(s: &Shape) -> usize {
+    s.iter().map(|l| l.iter().filter(|&&c| c == '#').count()).sum()
+}
+
 #[aoc(day12, part1)]
-pub fn solve_part1(input: &(Vec<Shape>, Vec<Tree>)) -> Result<i32> {
+pub fn solve_part1(input: &(Vec<Shape>, Vec<Tree>)) -> Result<usize> {
     let (shapes, trees) = input;
+
+    let spaces = shapes.iter().map(count_spaces).collect::<Vec<_>>();
+
+    let mut count = 0;
+    for tree in trees {
+        let available = tree.width * tree.height;
+        let required: usize = tree.presents.iter().filter_map(|p| spaces.get(*p)).sum();
+        if required <= available {
+            count += 1;
+        }
+    }
+
     println!("shapes: {:?}", shapes);
     println!("trees: {:?}", trees);
-    Ok(0)
+    Ok(count)
+
+    // 1000: no hint
 }
 
 #[aoc(day12, part2)]
