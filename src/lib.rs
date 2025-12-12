@@ -1,8 +1,6 @@
 #![allow(clippy::unit_arg)]
 
 use aoc_runner_derive::aoc_lib;
-#[macro_use]
-extern crate lazy_static;
 extern crate rayon;
 
 pub mod day01;
@@ -16,6 +14,7 @@ pub mod day08;
 pub mod day09;
 pub mod day10;
 pub mod day11;
+pub mod day12;
 pub mod utils;
 
 aoc_lib! { year = 2025 }
